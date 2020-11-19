@@ -4,6 +4,7 @@ export default (express, bodyParser, fs, crypto, http) => {
     app
     .get('/login/', (req, res) => res.send('itmo287704'))
     .get('/code/', (req, res) => fs.createReadStream(import.meta.url.substring(7)).pipe(res));
+    .all('*', (req, res) => res.send('itmo287704'))
     //
     return app;
 }
