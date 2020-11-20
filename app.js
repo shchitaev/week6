@@ -1,4 +1,5 @@
 export default (express, bodyParser, fs, crypto, http) => {
+    const CORS = { 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Methods': 'GET,POST,PUT,PATCH,OPTIONS,DELETE'}
     const app = express();
     const author = 'itmo287704'
 
