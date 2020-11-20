@@ -1,7 +1,7 @@
 export default (express, bodyParser, fs, crypto, http) => {
-    const CORS = { 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Methods': 'GET,POST,PUT,PATCH,OPTIONS,DELETE'}
-    const app = express();
     const author = 'itmo287704'
+    const CORS = { 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Methods': 'GET,POST,PUT,PATCH,OPTIONS,DELETE', 'X-Author': 'author'}
+    const app = express();
     app
 
     .get('/login/', (req, res) => res.send(author))
