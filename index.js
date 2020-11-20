@@ -9,4 +9,4 @@ import appSrc from './app.js';
 
 const app = appSrc(express, bodyParser, fs, crypto, http);
 
-app.listen(process.env.PORT);    
+app.listen(process.env.PORT ?? 4321);
