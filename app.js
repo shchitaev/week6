@@ -1,16 +1,12 @@
 export default (express, bodyParser, fs, crypto, http) => {
-    const CORS = {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'GET,POST,PUT,PATCH,OPTIONS,DELETE'};
-    
     const app = express();
-    const author = 'itmo287704'
-    
-  app
+    const CORS = { "Access-Control-Allow-Origin": "*", "Access-Control-Allow-Methods": "GET,POST,DELETE,PUT,OPTIONS" };
+
+  
+    app
       .use((r, res, next) => { r.res.set(CORS); next(); })
       .use(bodyParser.urlencoded({ extended: true }))
-  
-      .get('/login/', (req, res) => res.send(author))  
+      .get('/login/', (req, res) => res.send('itmo287704'))  
 
       .get('/sha1/:input', r => {
         const shasum = crypto.createHash('sha1');
@@ -28,10 +24,11 @@ export default (express, bodyParser, fs, crypto, http) => {
         const addr = req.method === 'POST' ? req.body.addr : req.query.addr;
 
         http.get(addr, (r, b = '') => {
-      r
+            r
             .on('data', d => b += d)
             .on('end', () => res.send(b));
         });
       });
   
       return app;
+}
