@@ -3,8 +3,6 @@ export default (express, bodyParser, fs, crypto, http) => {
     const CORS = {
       "Access-Control-Allow-Origin": "*",
       "Access-Control-Allow-Methods": "GET,POST,DELETE,PUT,OPTIONS",
-      "Access-Control-Expose-Headers": "X-Resp,Content-Type, Accept, Access-Control-Allow-Headers, Access-Control-Expose-Headers",
-      "Access-Control-Allow-Headers": "X-Resp,Content-Type, Accept, Access-Control-Allow-Headers, Access-Control-Expose-Headers"
     };
 
   
@@ -12,7 +10,7 @@ export default (express, bodyParser, fs, crypto, http) => {
       .use((r, res, next) => { r.res.set(CORS); next(); })
       .use(bodyParser.urlencoded({ extended: true }))
   
-      .get('/login/', (req, res) => res.send('openstudent'))  
+      .get('/login/', (req, res) => res.send('itmo287704'))  
 
       .get('/sha1/:input', r => {
         const shasum = crypto.createHash('sha1');
