@@ -5,7 +5,7 @@ export default (express, bodyParser, fs, crypto, http) => {
  app
     .get('/login/', (req, res) => res.send(author))
     .get('/code/', (req, res) => fs.createReadStream(import.meta.url.substring(7)).pipe(res))
-    .all('*', (req, res) => {res.send(author), res.setHeader('X-Author': 'author')});
+    .all('*', (req, res) => {res.send(author), res.setHeader(CORS)});
     //
     return app;
 }
