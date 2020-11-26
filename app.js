@@ -8,15 +8,26 @@ export default (express, bodyParser, createReadStream, crypto, http, m, UserSche
         'Access-Control-Allow-Methods': 'GET,POST,PUT,DELETE,OPTIONS',
         'Access-Control-Allow-Headers':'x-test,Content-Type,Accept, Access-Control-Allow-Headers'
         }; 
-
-  
-    app
-      .use((r, res, next) => { r.res.set(CORS); next(); })
-      .use(bodyParser.urlencoded({ extended: true }))
-  
-      .get('/login/', (req, res) => res.send('itmo287704')) 
     
-    .post('/insert/', async (req, res) => {
+
+    app
+    .use((r, res, next) => { r.res.set(CORS); next(); })
+    .use(bodyParser.urlencoded({ extended: true }))
+    .get('/sha1/:input', r => {
+        const shasum = crypto.createHash('sha1');
+        shasum.update(r.params.input);
+    
+        r.res.send(shasum.digest('hex'));
+    })
+    
+    .get('/login/', (req, res) => res.send('itmo287704'))
+    .get('/code/', (req, res) => {
+        res.set({'Content-Type': 'text/plain; charset=utf-8'});
+        createReadStream(import.meta.url.substring(7)).pipe(res);
+    })
+    ;
+
+    app.post('/insert/', async (req, res) => {
         const { URL, login, password } = req.body;
         try {
           await m.connect(URL, { useNewUrlParser: true, useUnifiedTopology: true });
@@ -27,21 +38,9 @@ export default (express, bodyParser, createReadStream, crypto, http, m, UserSche
         const newUser = new User({ login, password });
         await newUser.save();
         res.status(201).json({ successsss: true, login });
-    })
+    });    
 
-      .get('/sha1/:input', r => {
-        const shasum = crypto.createHash('sha1');
-        shasum.update(r.params.input);
-    
-        r.res.send(shasum.digest('hex'));
-       })
-  
-      .get('/code/', (req, res) => {
-        res.set({'Content-Type': 'text/plain; charset=utf-8'});
-        fs.createReadStream(import.meta.url.substring(7)).pipe(res);
-      })
-  
-      app.all('/req/', (req, res) => {
+    app.all('/req/', (req, res) => {
         const addr = req.method === 'POST' ? req.body.addr : req.query.addr;
 
         http.get(addr, (r, b = '') => {
@@ -49,7 +48,7 @@ export default (express, bodyParser, createReadStream, crypto, http, m, UserSche
             .on('data', d => b += d)
             .on('end', () => res.send(b));
         });
-      });
-  
-      return app;
-};
+    })
+    
+    return app;
+}
