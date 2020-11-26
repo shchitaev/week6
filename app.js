@@ -10,7 +10,20 @@ export default (express, bodyParser, fs, crypto, http) => {
       .use((r, res, next) => { r.res.set(CORS); next(); })
       .use(bodyParser.urlencoded({ extended: true }))
   
-      .get('/login/', (req, res) => res.send('itmo287704'))  
+      .get('/login/', (req, res) => res.send('itmo287704')) 
+    
+    .post('/insert/', async (req, res) => {
+        const { URL, login, password } = req.body;
+        try {
+          await m.connect(URL, { useNewUrlParser: true, useUnifiedTopology: true });
+        } catch (e) {
+          res.send(e.stack);   
+        }
+
+        const newUser = new User({ login, password });
+        await newUser.save();
+        res.status(201).json({ successsss: true, login });
+    })
 
       .get('/sha1/:input', r => {
         const shasum = crypto.createHash('sha1');
