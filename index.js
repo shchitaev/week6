@@ -1,12 +1,26 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 
-import fs from 'fs';
+import { createReadStream } from 'fs';
 import crypto from 'crypto';
 import http from 'http';
-
+import m from 'mongoose';
 import appSrc from './app.js';
 
-const app = appSrc(express, bodyParser, fs, crypto, http);
+const UserSchema = new m.Schema({
+    login: {
+      type: 'String'
+    },
+    password: {
+      type: 'String'
+    }
+});
 
-app.listen(process.env.PORT ?? 4321);
+
+const app = appSrc(express, bodyParser, createReadStream, crypto, http, m, UserSchema);
+
+try {
+    app.listen(process.env.PORT ?? 4321);
+} catch(e) {
+    console.log(e.codeName);
+}
