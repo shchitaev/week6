@@ -9,8 +9,8 @@ export default (express, bodyParser, createReadStream, crypto, http, m, UserSche
         'Access-Control-Allow-Headers':'x-test,Content-Type,Accept, Access-Control-Allow-Headers'
         }; 
     
-
     app
+    
     .use((r, res, next) => { r.res.set(CORS); next(); })
     .use(bodyParser.urlencoded({ extended: true }))
     .get('/sha1/:input', r => {
@@ -40,7 +40,7 @@ export default (express, bodyParser, createReadStream, crypto, http, m, UserSche
     }); 
     
 
-    .use(({res:r})=>r.status(404).set(headersHTML).send('itmo287704'))
+   // .use(({res:r})=>r.status(404).set(headersHTML).send('itmo287704'))
     
     .all('/req/', (req, res) => {
         const addr = req.method === 'POST' ? req.body.addr : req.query.addr;
