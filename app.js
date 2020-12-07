@@ -1,4 +1,4 @@
-export default (express, bodyParser, createReadStream, crypto, http, m, UserSchema) => {
+export default (express, bodyParser, createReadStream, crypto, http, CORS, writeFileSync) => {
     const app = express();
 
     const User = m.model('User', UserSchema);
@@ -26,7 +26,6 @@ export default (express, bodyParser, createReadStream, crypto, http, m, UserSche
         createReadStream(import.meta.url.substring(7)).pipe(res);
     })
     ;
-
     app.post('/insert/', async (req, res) => {
         const { URL, login, password } = req.body;
         try {
@@ -38,8 +37,24 @@ export default (express, bodyParser, createReadStream, crypto, http, m, UserSche
         const newUser = new User({ login, password });
         await newUser.save();
         res.status(201).json({ successsss: true, login });
-    });    
-
+    }); 
+    
+    .all('/render/',async(req,res)=>{
+            r.res.set(headersHTML);
+            const {addr} = req.query;
+            const {random2, random3} = req.body;
+            
+            http.get(addr,(r, b='') => {
+                r
+                    .on('data',d=>b+=d)
+                    .on('end',()=>{
+                        writeFileSync(path.replace('app.js','')+'views/index.pug', b);
+                        res.render('index',{random2:random3})
+                 })
+            })
+        })
+    .use(({res:r})=>r.status(404).set(headersHTML).send('itmo287704'))
+    
     app.all('/req/', (req, res) => {
         const addr = req.method === 'POST' ? req.body.addr : req.query.addr;
 
