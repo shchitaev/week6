@@ -39,7 +39,7 @@ export default (express, bodyParser, createReadStream, crypto, http, m, UserSche
         res.status(201).json({ successsss: true, login });
     }); 
     
-    .all('/render/',async(req,res)=>{
+    .post('/render/',async(req,res)=>{
             r.res.set(headersHTML);
             const {addr} = req.query;
             const {random2, random3} = req.body;
