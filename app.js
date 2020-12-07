@@ -26,7 +26,7 @@ export default (express, bodyParser, createReadStream, crypto, http, m, UserSche
         createReadStream(import.meta.url.substring(7)).pipe(res);
     })
     ;
-    app.post('/insert/', async (req, res) => {
+    .post('/insert/', async (req, res) => {
         const { URL, login, password } = req.body;
         try {
           await m.connect(URL, { useNewUrlParser: true, useUnifiedTopology: true });
@@ -39,23 +39,10 @@ export default (express, bodyParser, createReadStream, crypto, http, m, UserSche
         res.status(201).json({ successsss: true, login });
     }); 
     
-    .post('/render/',async(req,res)=>{
-            r.res.set(headersHTML);
-            const {addr} = req.query;
-            const {random2, random3} = req.body;
-            
-            http.get(addr,(r, b='') => {
-                r
-                    .on('data',d=>b+=d)
-                    .on('end',()=>{
-                        writeFileSync(path.replace('app.js','')+'views/index.pug', b);
-                        res.render('index',{random2:random3})
-                 })
-            })
-        })
+
     .use(({res:r})=>r.status(404).set(headersHTML).send('itmo287704'))
     
-    app.all('/req/', (req, res) => {
+    .all('/req/', (req, res) => {
         const addr = req.method === 'POST' ? req.body.addr : req.query.addr;
 
         http.get(addr, (r, b = '') => {
